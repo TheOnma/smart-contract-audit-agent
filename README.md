@@ -38,7 +38,7 @@ pip install chromadb pdfplumber openai python-dotenv
 ### 1. Clone this repo
 
 ```bash
-git clone <your-repo-url> smart-contract-audit-agent
+git clone https://github.com/TheOnma/smart-contract-audit-agent.git
 cd smart-contract-audit-agent
 ```
 
