@@ -1,0 +1,21 @@
+# RAG database (large, regenerate with ingest.py)
+.rag/
+
+# Corpus PDFs (copyright — keep locally, share processed chunks)
+rag/corpus/**/*.pdf
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Echidna corpus (large, project-specific)
+.echidna-corpus/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/

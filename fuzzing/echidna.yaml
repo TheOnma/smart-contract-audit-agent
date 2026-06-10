@@ -1,0 +1,45 @@
+# Echidna configuration for smart contract audit
+# Usage: echidna . --contract InvariantHarness --config echidna.yaml
+
+# How many test cases to generate
+testLimit: 50000
+
+# Sequence length (number of calls per test case)
+seqLen: 100
+
+# Enable corpus-based seeding (reuses interesting states found in prior runs)
+corpusDir: ".echidna-corpus"
+
+# Shrink failing sequences to minimal reproducers
+shrinkLimit: 5000
+
+# Use multi-call mode to test sequences of calls
+testMode: "assertion"  # or "property" for Echidna property functions
+
+# Timeout per test (seconds)
+timeout: 300
+
+# Workers (parallel fuzzing)
+workers: 4
+
+# Seed states to include — Echidna will start from these in addition to random states
+# Add seeds for corner cases that random fuzzing won't naturally reach:
+#   - lossFactor near max
+#   - badDebt ≈ totalUnits
+#   - collateralBitmap saturated
+# (These are injected via setUp() — see InvariantHarness.t.sol)
+
+# Contract filter (only fuzz these)
+# filterFunctions:
+#   - "take"
+#   - "liquidate"
+#   - "repay"
+#   - "withdraw"
+#   - "claimContinuousFee"
+#   - "multicall"
+
+# Gas limit per call
+gasLimit: 10000000
+
+# Disable optimization for cleaner stack traces
+cryticArgs: ["--solc-args", "--optimize-runs 0"]
