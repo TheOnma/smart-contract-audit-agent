@@ -1,4 +1,4 @@
-# Smart Contract Audit Agent
+# Alma Agent
 
 A reusable auditing system that combines RAG-backed pattern matching, property-based fuzzing, and formal verification templates. Point it at any Solidity project and it gives you the infrastructure a top warden uses — without rebuilding it from scratch each time.
 
