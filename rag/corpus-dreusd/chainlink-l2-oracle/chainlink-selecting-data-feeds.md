@@ -1,0 +1,341 @@
+# Chainlink — Selecting Data Feeds (risk mitigation, minAnswer/maxAnswer)
+
+(Extracted from web; technical content for RAG.)
+
+Selecting Quality Data Feeds
+When you design your applications, consider the quality of the data that you use in your smart contracts. Ultimately you are responsible for identifying and assessing the accuracy, availability, and quality of data that you choose to consume via the Chainlink Network. Note that all feeds contain some inherent risk. Read the
+Risk Mitigation
+ and
+Evaluating Data Sources
+ sections when making design decisions. Chainlink lists decentralized data feeds in the documentation to help developers build new applications integrated with data. Please review this page in its entirety to understand the risks and categories relevant to your data feed implementation.
+For a summary of data sourcing models by asset type, see
+Data Sources
+.
+Data Feed Categories
+This categorization is put in place to inform users about the intended use cases of feeds and help highlight some of the inherent market integrity risks surrounding the data quality of these feeds.
+Data feeds are grouped into the following categories based on the level of market pricing risk, based on multiple factors, from lowest to highest:
+🟢 Low Market Pricing Risk
+🟡 Medium Market Pricing Risk
+🟠 High Market Pricing Risk
+🔴 Very High Market Pricing Risk
+🆕 New Token Feeds
+🔵 Custom Feeds
+⭕ Deprecating
+ note
+For important updates regarding the use of Chainlink Data Feeds, users should join the official Chainlink Discord and
+subscribe to the
+#data-feeds channel
+ and reguarly check the
+Chainlink
+Changelog
+.
+Market pricing risk by category
+These subsections describe standard market price feeds at each pricing risk level and correspond to the
+category list
+ above.
+🟢 Low Market Pricing Risk Feeds
+These are data feeds that follow a standardized data feeds workflow to report market prices for an asset pair. Chainlink node operators each query several sources for the market price and aggregate the estimates provided by those sources.
+Low Market Pricing Risk feeds have the following characteristics:
+More resilient to disruption than other feeds
+Leverage multiple data sources when they are available
+Higher volumes across multiple markets enables price discovery
+While Market Pricing Risk may be categorized as low, other risks might still exist based on your use case, data provider availability or performance, the blockchain on which the feed is deployed, and the conditions on that chain. Developers remain responsible for ensuring that protocol
+risk parameters are configured appropriately
+ and that the operation and performance of Low Market Pricing Risk data feeds match expectations. For users integrating a custom feed, please review the
+Custom Feed
+ section for additional considerations.
+🟡 Medium Market Pricing Risk Feeds
+These feeds also follow a standardized data feeds workflow to report market prices for an asset pair. The pair in question may have features that make it more challenging to reliably price, or potentially subject it to volatility, which may pose a risk in some use cases. While the architecture of these feeds is resilient and distributed, these feeds carry additional Market Pricing Risk.
+Types of Market Pricing Risk that may lead to a feed being categorized as Medium Market Pricing Risk include:
+Lower or inconsistent asset volume may result in periods of low liquidity in the market for such assets. This, in turn, can lead to volatile price movements.
+A spread between the price for this asset on different trading venues or liquidity pools.
+Market Concentration Risk: If the volume for a given asset is excessively concentrated on a single exchange, that trading venue could become a single point of failure for the feed.
+Cross-Rate Risk: The base asset trades in large volumes against assets that are not pegged to the quote asset. As a result, the price of this specific asset pair may fluctuate even if the underlying asset is not being traded.
+The asset is going through a significant market event such as a token or liquidity migration.
+The asset has a high spread between data providers, the root cause of which is often one of the above factors.
+The availability of pricing sources may be subject to change based on concentration, trading venue location, and currency pairs.
+Developers remain responsible for ensuring that protocol
+risk parameters are configured appropriately
+ and that the operation and performance of Medium Market Pricing Risk data feeds matches expectations. For users integrating a custom feed, please review the
+Custom Feed
+ section for additional considerations.
+🟠 High Market Pricing Risk Feeds
+These feeds also follow a standardized data feeds workflow to report market prices for an asset pair. However, the pair in question often exhibits a heightened degree of some of the risk factors outlined under Medium Market Pricing Risk, or a separate risk that makes the market price subject to uncertainty or volatility. In using a High Market Pricing Risk data feed you acknowledge that you understand the risks associated with such a feed and that you are solely responsible for monitoring and mitigating such risks. Developers remain responsible for ensuring that protocol
+risk parameters are configured appropriately
+ and that the operation and performance of High Market Pricing Risk data feeds matches expectations. High Market Pricing Risk data feeds may be deprecated. See the
+Data Feed Shutdown Policy
+ for more information. For users integrating a custom feed, please review the
+Custom Feed
+ section for additional considerations.
+🔴 Very High Market Pricing Risk Feeds
+Very High Market Pricing Risk feeds price assets with quotes that are subject to extreme levels of risk, greater than those outlined above for High Market Pricing Risk. Types of Market Pricing Risk that may lead to a feed being categorized as Very High Market Pricing Risk include, but are not limited to:
+The asset is going through a significant market event such as a hack, bridge failure, or a delisting from a major exchange.
+The asset or project is being deprecated in the market.
+Volumes have dropped to extremely low levels.
+Reliable pricing sources for asset are extremely limited.
+Users should wind down their reliance on these feeds and/or implement strict capital and risk management policies accounting for extreme price and market structure volatility. Very High Market Pricing Risk feeds will be wound down over time in accordance with the
+Data Feed Shutdown Policy
+. In using a Very High Market Pricing Risk data feed you acknowledge that you understand the risks associated with such a feed and that you are solely responsible for monitoring and mitigating such risks. You understand that Chainlink may not provide separate monitoring for these feeds. Developers remain responsible for ensuring that protocol
+risk parameters are configured appropriately
+ and that the operation and performance of Very High Market Pricing Risk data feeds matches expectations. For users integrating a custom feed, please review the
+Custom Feed
+ section for additional considerations.
+🆕 New Token Feeds
+When a token is newly launched, the historical data required to implement a rigorous risk assessment framework that would allow the categorization of a market data feed for that token as Low, Medium, or High Pricing Risk is unavailable. Consistent price discovery may involve an indeterminate amount of time. Users must understand the additional
+market and volatility risks
+ inherent with such assets. Users of New Token feeds are responsible for independently verifying the liquidity and stability of the assets priced by the feeds that they use. At the end of a probationary period, the status of New Token feeds may be adjusted to Very High, High, Medium, or Low Market Pricing Risk, or in rare cases be deprecated entirely. For users integrating a custom feed, please review the
+Custom Feed
+ section for additional considerations.
+🔵 Custom Feeds
+Custom Feeds are built to serve a specific use case and can differ materially from standard market price feeds in sourcing, methodology, update behavior, and risk profile. Users must evaluate the properties of a custom feed to make sure it aligns with their intended use case and closely assess the risk of
+single source feeds
+.
+Contact the Chainlink Labs team
+ if you want more detail on any specific feeds in this category.
+Custom Feeds have the following categories and compositions:
+🟠
+Onchain Single Source Feeds:
+ These feeds take their data from an onchain source, however, the feed has only a single data provider currently supporting the feed.
+🟡
+Onchain Proof of Reserve Feeds:
+ Chainlink Proof of Reserve uses a large decentralized collection of security-reviewed and Sybil-resistant node operators to acquire and verify reserve data. In this use case, reserves reside onchain.
+🟡
+Exchange Rate Feeds:
+ These feeds read an exchange rate from an external contract onchain that is designed to allow conversion from one token to another. Chainlink does not own or control these contracts in any way. They are not equivalent to market price feeds.
+🟡
+Technical Feeds:
+ Feeds within this category measure a particular technical metric from a specified blockchain. For example, Fast Gas or Block Difficulty.
+🟡
+Total Value Locked Feeds:
+ These feeds measure the total value locked in a particular protocol.
+🟠
+Custom Index Feeds:
+ An index calculates a function of the values for multiple underlying assets. The function is specific to that index and is typically calculated by node operators following an agreed formula.
+🟠
+Offchain Single Source Feeds:
+ Some data providers use a single data source, which might be necessary if only one source exists offchain for a specific type of data.
+🟠
+Offchain Proof of Reserve Feeds:
+ Chainlink Proof of Reserve uses a large decentralized collection of security-reviewed and Sybil-resistant node operators to acquire and verify reserve data. In this use case, reserves reside offchain.
+🟠
+LP Token Feeds:
+ These feeds use a decentralized feed for the underlying asset as well as calculations to value the liquidity pool (LP) tokens.
+🔴
+Wrapped Calculated Feeds:
+ These feeds are typically pegged 1:1 to the underlying token or asset. Under normal market conditions, these feeds track their underlying value accurately. However, given that the price is a derivative formed from a calculated method, the derivative asset may not always precisely track the value of the underlying token or asset.
+If you plan on using one of these feeds and would like to get a more detailed understanding,
+contact the Chainlink Labs team
+. Using feeds that were not specifically designed for your use case involves risk. Their use might pose risks that could result in harm to your project. Users are responsible for thoroughly vetting and validating such deployments and determining their suitability. You bear responsibility for any manner in which you use the Chainlink Network, its software, and documentation.
+⭕ Deprecating
+These feeds are being deprecated. To find the deprecation dates for specific feeds, see the
+Feeds Scheduled For Deprecation
+ page.
+Data Feed Shutdown Policy
+Data feeds managed by Chainlink Labs will be considered for deprecation if they pose a risk to the Chainlink Community and broader ecosystem, if the asset or assets (or their volume or liquidity) on the feed have significantly deteriorated or are unreliable and no longer meet our Quality Assurance standards, or if the data feed has become economically unsustainable to support. Users are therefore advised to ensure they have measures in place for the orderly deprecation of reliance on specific Chainlink price feeds.
+Known users of these feeds will be contacted directly about the feeds' deprecation whenever possible. Notifications will also be posted on the
+Feeds Scheduled For Deprecation
+ page and on our
+Discord channel
+ with two weeks of notice before they are shut down except where conditions require an accelerated deprecation.
+ Data Feed Shutdown Behavior
+Once a feed is shutdown, calls to the feed will behave as follows:
+latestAnswer
+ will return
+0
+latestRoundData
+ will revert with no data available
+Market hours
+In addition to categories, be aware that markets for several assets are actively traded only during certain hours. Listed data feeds include an attribute describing their market hours. Chainlink Labs recommends using these feeds only during their specified hours:
+Feed
+Hours
+Crypto
+24/7/365 - No market close.
+US_Equities
+Standard US equity market hours: 09:30 - 16:00 ET M-F excluding US equity market holidays.
+US_Equities_24/5
+24 hours a day, 5 days a week: 18:00 ET Sunday to 17:00 ET Friday. These feeds aggregate data across regular, pre-market, post-market, and overnight equity trading sessions. Used by
+tokenized equity feeds
+ that require continuous equity pricing outside of standard market hours. Feeds are not updated on weekends or US equity market holidays.
+UK_ETF
+Standard UK equity market hours: 08:00 - 16:30 UK time M-F excluding UK equity market holidays.
+Forex
+18:00 ET Sunday to 17:00 ET Friday.
+ The feeds also follow the global Forex market Christmas and New Year's Day holiday schedule. Many non-G12 currencies primarily trade during local market hours. It is recommended to use those feeds only during local trading hours. We generally observe normal trading within these hours. Prices outside of these hours may be subject to volatility and users are advised to implement additional controls. In addition, local holidays, natural disasters, political unrest or other exogenous shocks are liable to interrupt normal trading in less-liquid currencies.
+Precious_Metals
+18:00 ET Sunday to 17:00 ET Friday with a one-hour break Monday through Thursday from 17:00 to 18:00.
+ The feeds also follow the global Forex market holiday schedule for Christmas and New Year's Day.
+NYMEX
+ (US OIL)
+18:00 ET Sunday to 17:00 ET Friday, with a one-hour break Monday through Thursday from 17:00 to 18:00.
+ The feed also follows the NYMEX market holiday schedule.
+COMEX
+ (Non precious metals)
+18:00 ET Sunday to 17:00 ET Friday with a one-hour break Monday through Thursday from 17:00 to 18:00.
+ The feed also follows the COMEX market holiday schedule.
+CBOT
+ (Agricultural)
+Monday - Thursday 00:00-08:45, 09:30-00:00 and Friday 00:00-08:45, 09:30-14:00 ET, excluding CBOT market holidays.
+MI_ETF
+Standard Milan equity market hours. 09:00-17:30 CET time M-F, excluding Milan equity market holidays.
+XETRA_ETF
+Deutsche Börse Xetra equity market hours. 09:00-17:30 CET time M-F, excluding Xetra equity market holidays.
+Risk Mitigation
+As a development best practice, design your systems and smart contracts to be resilient and mitigate risk to your protocol and your users. Ensure that your systems can tolerate known and unknown exceptions that might occur. Some examples include but are not limited to volatile market conditions, reduced price discovery availability, the degraded performance of infrastructure, chains, or networks, and any other upstream outage related to data providers or node operators. You bear responsibility for any manner in which you use the Chainlink Network, its software, and documentation.
+To help you prepare for unforeseen market events, you should take additional steps to protect your application or protocol regardless of the Market Pricing Risk categorization of the Data Feeds your application consumes. The below tooling is put in place to mitigate extreme market events, possible malicious activity on third-party venues or contracts, potential delays, performance degradation, and outages. Below are some examples of tooling that Chainlink users have put in place:
+Circuit breakers:
+ In the case of an extreme price event, the contract would pause operations for a limited period of time.
+Chainlink Runtime Environment
+ is able to monitor data feeds to identify unexpected events. If an event were to occur, the Automation network can send an onchain transaction to pause or halt contract functionality.
+Contract update delays:
+ Contracts would not update until the protocol had received a recent fresh input from the data feed.
+Manual kill switch:
+ If a vulnerability or bug is discovered in one of the upstream contracts, the user can manually cease operation and temporarily sever the connection to the data feed.
+Monitoring:
+ Some users create their own monitoring alerts based on deviations in the data feeds that they are using.
+Soak testing:
+ Users are strongly advised to thoroughly test price feed integrations and incorporate a
+soak period
+ prior to providing access to end users or securing value.
+Provider/source dependency controls:
+ For single-source feeds, implement controls that detect stale, delayed, missing, or unexpected values from the underlying provider. Where possible, compare the feed against independent references, enforce value bounds or caps, and define fallback or pause behavior before securing value with the feed.
+For more detailed information about some of these examples, see the
+Monitoring data feeds
+ documentation.
+For important updates regarding the use of Chainlink Price Feeds, users should join the official Chainlink Discord and subscribe to the
+data-feeds-user-notifications channel
+.
+Stablecoin-specific considerations
+To protect against extreme stablecoin price events, protocols should assess upside risk and evaluate setting an explicit valuation ceiling for each stablecoin, along with mechanisms that provide proactive peg protection. One example of this approach is the Correlated-assets Price Oracle (
+CAPO
+), which was implemented by Aave Labs with support from Chainlink Labs and adds upside protection when valuing fiat-pegged stablecoins while preserving full downside responsiveness. Other risk mitigation measures may be appropriate depending on a protocol's intended use case. Teams interested in developing similar risk mitigation measures for stablecoins can
+contact the Chainlink Labs team
+. Developers remain responsible for ensuring that protocol risk parameters are configured appropriately and that the operation and performance of stablecoin data feeds matches expectations.
+Chainlink Community Deployments
+Chainlink technology is used by many within the blockchain community to support their use cases. Deployments built and run by community members are not tracked in the Chainlink documentation. Chainlink's community is continuously growing, and they play a vital role in developing the ecosystem, so the software and tooling are developed for anyone to use. Users have a wide variety of options for choosing how to deliver data onchain. They can deploy Chainlink nodes themselves or via the extensive network of node operators that offer services and access one of the community-managed oracle networks that support the supply of various types of data onchain. Chainlink Labs does not take responsibility for the use of Chainlink node software.
+It is always recommended that you conduct a thorough analysis of your requirements and carry out appropriate due diligence on any partners you wish to use with your project.
+The Chainlink Labs team does not monitor community deployments and users should use best practices in observability, monitoring, and risk mitigation as appropriate for your application's stage of development and use case.
+As your usage of data feeds evolves and requirements for higher availability and greater security increases, such as securing substantive value, the reliability properties of your data feed will become crucial.
+Contact Chainlink Labs team
+ for services to ensure deployments meet the highest levels of availability and security.
+High Risk: Forked, modified, or custom software:
+As Chainlink is open source, independent forks and modifications may exist. Chainlink Labs and development teams are not involved in these and do not track or maintain visibility on them. Chainlink Labs is not responsible for updates, enhancements, or bug fixes for these versions, and Chainlink Labs does not monitor them. Their use might pose risks that can do harm to your project. Users are responsible for thoroughly vetting and validating such deployments and determining their suitability.
+Evaluating Data Sources and Risks
+If your smart contracts use data feeds, assess those data feeds for the following characteristics. For a summary of data sourcing models by asset type, see
+Data Sources
+.
+Liquidity and its Distribution
+Single Source Data Providers
+Crypto and Blockchain Actions
+Market Failures Resulting from Extreme Events
+Periods of High Network Congestion
+Unknown and Known Users
+DEX volumes
+Liquidity and its Distribution
+If your smart contract relies on pricing data for a specific asset, make sure that the asset has a sufficiently healthy level of liquidity in the market to avoid price and market manipulation. Assets with low liquidity or volume can be volatile or difficult to price, which might negatively impact your application and its users. Malicious actors might try to exploit volatility or periods of reduced trading activity to take advantage of the logic in a smart contract and cause it to execute in a way that you did not intend.
+Some data feeds obtain their pricing data from individual exchanges rather than from aggregated price tracking services that gather their data from multiple exchanges. These are marked as such in the docs page for that feed. Assess the liquidity and reliability of that specific exchange.
+Liquidity migrations occur when a project moves its tokens from one liquidity provider (such as a DEX, a CEX, or a new DeFi application) to another. When liquidity migrations occur, it can result in low liquidity in the original pool, making the asset susceptible to market manipulation. If your project is considering a liquidity migration, you should coordinate with relevant stakeholders, including liquidity providers, exchanges, oracle node operators, Data Feed providers, and users, to ensure prices are accurately reported throughout the migration.
+Feeds for assets with low market liquidity or volume where data providers exhibit an abnormal price spread may, on occasion, see a price oscillate between two or more price points within regular intervals. To mitigate risk associated with such price oscillation, users must regularly monitor & assess the quality of an asset's liquidity. Similarly, assets with low market liquidity may experience abnormal or volatile price movements due to erroneous trades.
+Design and test your contracts to handle price spikes and implement risk management measures to protect your assets. For example, create mock tests that return various oracle responses.
+Single Source Data Providers
+Some Chainlink Data Feeds rely on a single underlying data source or a single data provider. This can be necessary when only one authoritative source exists onchain or offchain for a specific type of data, such as a protocol-published NAV, reserve value, redemption rate, exchange rate, or other custom metric.
+Single-source feeds have a different risk profile than market price feeds that aggregate observations across multiple data sources and node operators. If the underlying source or provider publishes incorrect data, omits data, changes its methodology, experiences an outage, is delayed, or is compromised, the feed may reflect that issue. Any such error, omission, delay, or provider failure could negatively affect your application and its users.
+Before using a single-source feed, determine whether it is suitable for your use case and whether your application can tolerate the provider/source risk. This is especially important when the feed is used to secure value, determine collateral value, trigger liquidations, support minting or redemption, calculate NAV, or automate other protocol actions.
+Users of single-source feeds MUST implement additional safeguards such as value bounds, caps, circuit breakers, freshness checks, fallback behavior, monitoring against independent references where available, and manual pause or kill-switch controls. Single-source feeds can be classified as High or Very High Market Pricing Risk depending on the asset, methodology, provider dependency, and intended use case.
+If you are using or considering a single-source feed in production,
+contact the Chainlink Labs team
+ to discuss the feed's methodology, provider dependency, and appropriate application-level mitigations.
+Crypto and Blockchain Actions
+Price data quality is subject to crypto actions by the crypto and blockchain project teams. Crypto actions are similar to
+corporate actions
+ but are specific to cryptocurrency and blockchain projects, such as token renaming, token swaps, redenominations, splits, reverse splits, network upgrades, and other migrations that teams or communities who govern the blockchain or token might undertake.
+Sustaining data quality is dependent on data sources implementing the necessary adjustments related to such actions. For example, when a project upgrades to a new version of their token, this results in a token migration. When token migrations occur, they require building a new Data Feed to ensure that the token price is accurately reported. Similarly, actions by blockchain project teams or communities, such as forks or upgrades to the network, may require new Data Feeds to ensure continuity and data quality. When considering a token migration, fork, network upgrade, or other crypto action, projects should proactively reach out to relevant stakeholders to ensure the asset price is accurately reported throughout the process.
+Market Failures Resulting from Extreme Events
+Users are strongly advised to set up monitoring and alerts in the event of unexpected market failures. Black swan events, hacks, coordinated attacks, or extreme market conditions may trigger unanticipated outcomes such as liquidity pools becoming unbalanced, unexpected re-weighting of indices, abnormal behavior by centralized or decentralized exchanges, or the de-pegging of synthetic assets, stablecoins, and currencies from their intended exchange rates.
+Circuit breakers can be created using
+Chainlink Automation
+. Circuit breakers are safety measures that monitor data feeds for unexpected scenarios such as stale prices, drastic price changes, or prices approaching a predetermined min/max threshold. If an unexpected scenario occurs, the circuit breaker can send an onchain transaction to pause or halt contract functionality.
+Periods of High Network Congestion
+Data Feed performance relies on the chains they are deployed on. Periods of high network congestion or network downtime might impact the frequency of Chainlink Data Feeds. It is advised that you configure your applications to detect such chain performance or reliability issues and to respond appropriately.
+Unknown and Known Users
+Routine maintenance is carried out on Chainlink Data Feeds, including decommissioning, on an ad-hoc basis. These maintenance periods might require users to take action in order to maintain business continuity.
+Notifications are sent to inform known users regarding such occurrences, and it is strongly encouraged for all users, including those users utilizing data feeds for offchain purposes,
+to provide their contact information
+ before utilizing data feeds. Without providing contact information, users will be unable to receive notifications regarding important Data Feed updates.
+If you are using Data Feeds but have not provided your contact information, you can do so
+here
+. Users that fail to provide notification information do so at their own risk.
+DEX Volumes
+Assets with a significant market presence on decentralized exchanges (DEXs) face distinct risks related to unique market structure. The market integrity can be compromised by flash loan-funded attacks, volume shifts to different onchain or offchain exchanges, or a well-capitalized actor temporarily manipulating the price on that exchange. Additionally, DEX trades can result in slippage due to liquidity migrations and trade size. The likelihood of high-slippage trades being accurately reflected in market prices depends on the trading patterns of the asset.
+Generally, a lower risk of deviant trades impacting aggregated prices is associated with assets having multiple DEX pools with healthy volumes and consistent trading activity across different time windows.
+Evaluating Wrapped or Bridged Assets
+Assessing how to Price Wrapped or Bridged Assets
+When assessing a Chainlink Data Feed for a wrapped or bridged asset such as WBTC, users should evaluate the tradeoffs between using a Data Feed specifically built for the wrapped or bridged asset or a Data Feed built for the underlying asset.
+Decisions should be made on a case-by-case basis considering the liquidity, depth, and trading volatility of the underlying asset compared to its derivative. In addition, users must consider the security mechanism that is designed to keep the wrapped or bridged asset coupled to its underlying asset. Review these parameters regularly as asset dynamics continuously evolve.
+Extreme Events Causing Price Deviations in Wrapped or Bridged Assets
+Chainlink Data Feeds are designed to provide the market-wide price of various assets, as determined by a volume-weighted average across a wide range of exchanges. On blockchain networks where assets are wrapped and/or bridged from another environment using a cross-chain token bridge, Chainlink Data Feeds built for the underlying asset will continue to report the market-wide price of the underlying asset as opposed to the price of the wrapped/bridged asset. This methodology reduces risks around market manipulation because wrapped/bridged tokens are often less liquid than the underlying asset.
+However, users should be aware that certain extreme events may result in price deviations between the wrapped/bridged asset and its underlying counterpart. For example, the exploitation or hack of a cross-chain token bridge may cause a collapse in demand for a particular wrapped asset. As such, users should construct their applications with safeguards, such as circuit breakers to proactively pause functionality to mitigate risk during such scenarios. Circuit breakers can be created using Chainlink Automation to monitor data feeds for unexpected scenarios.
+An additional mechanism for securing a protocol utilizing wrapped assets is by incorporating
+Chainlink Proof of Reserve
+. Chainlink Proof of Reserve enables the real-time reserve monitoring of offchain and cross-chain assets, including those that have been wrapped/bridged. By comparing the wrapped token's supply against a Chainlink Proof of Reserve feed, protocols can ensure that these assets are properly collateralized at all times.
+Front Running Risk
+Front running (when a third party benefits from prior access to information about a transaction) is a known risk inherent to specific blockchain applications. Chainlink Data Feeds are optimized to prioritize high levels of data quality and reliability over latency.
+To mitigate the risk associated with front running, users building highly latency-dependent applications should assess whether the configuration of data feeds meets their needed specifications for speed and frequency.
+Chainlink Data Streams
+ serve as an alternative solution to Data Feeds for latency-sensitive applications, providing low-latency delivery of market data offchain that can be verified onchain while mitigating front running.
+Market Price Feeds
+Market Price Feeds incorporate three layers of aggregation at the data source, node operator, and oracle network layers. These feeds are designed to reflect observable market prices across
+major venues
+.
+Bounded Market Price Feeds
+Bounded Market Price Feeds are a specific category of Market Price Feeds that incorporate predefined bounds on reported values to mitigate specific asset class risks, following risk management best practices.
+For example, a Bounded Market Price Feed for a stablecoin would include an upper bound that caps the on-chain reported price at a pre-defined maximum (e.g., $1.05), even during edge cases like market dislocations where the stablecoin trades higher than the cap. In such cases, the price will not be reported on-chain. Instead, the most recently written on-chain price will be the value returned by calling
+latestRoundData
+ on the feed's
+proxy address
+. This helps prevent extreme or sustained premium pricing from being reported. These bounds are designed to provide guardrails for assets where structural deviations may introduce elevated risk for feed consumers. Note that a Bounded Market Price Feed for a stablecoin would not include a lower bound for the on-chain reported price.
+In rare circumstances, the fundamental value of an asset underlying a Bounded Market Price Feed, such as a stablecoin, may materially change. In such a case, the predefined bound(s) associated with a Bounded Market Price Feed may be adjusted or removed following an update to Chainlink's
+Changelog
+.
+Users must be aware that Bounded Market Price Feeds have unique risk considerations. Developers remain responsible for ensuring that protocol risk parameters are configured appropriately and that the operation and performance of Bounded Market Price Feeds matches expectations. If your use case requires the use of a non-Bounded Market Price Feed and one does not exist, contact us at
+chainlink_data_feeds@smartcontract.com
+.
+Exchange Rate Feeds
+The architecture of exchange rate feeds differs from that of
+Market Price Feeds
+.
+Exchange rate feeds
+ are tied to specific protocols or ecosystems and report the internal redemption rates for an asset (i.e., the value/rate at which an asset can be redeemed or exchanged within that protocol's ecosystem). This data is sourced directly from a specified smart contract on a source chain and relayed to a destination chain.
+Exchange rate feeds are useful in circumstances such as:
+Pricing yield-bearing assets:
+ Multiplying a yield-bearing asset's exchange rate by the underlying asset's market rate can be used to calculate the yield-bearing asset's current price. This methodology can reduce certain pricing volatility risks associated with lower-liquidity yield-bearing assets.
+Enabling cross-chain staking:
+ For example, liquid staking tokens (LSTs) or liquid restaking tokens (LRTs) can be minted at the exchange rate on a layer 2, while Chainlink CCIP transfers the underlying asset to a layer 1 for staking.
+Improving liquidity pool performance for yield-bearing assets:
+ Exchange rate feeds can be utilized to programmatically adjust swap curves to maximize liquidity efficiency.
+ note
+Users must be aware that both market price and exchange rate pricing methodologies have unique risk considerations and
+risk mitigation strategies that vary based on an asset's type and liquidity profile. Users are responsible for
+decisions relating to feed selection. To learn more about how best to leverage Chainlink Data Feeds for your project,
+contact us
+here
+.
+ETF and Forex feeds
+When you use Data Feeds for ETFs or Foreign Exchange (Forex) data, be aware of the following best practices:
+Offchain equity and ETF assets are traded only during
+standard market hours
+. Do not use these feeds outside those windows.
+Assets on the Forex (Foreign Exchange) markets are traded only during
+defined market hours
+. Additionally, some currencies might trade only during local banking hours. Do not use Forex feeds outside market hours for the specific currency.
+UK ETF price feed answers are 15 minutes delayed from their original published source. Assets are traded only during
+standard market hours
+. Do not use these feeds outside their specified hours.
+ Disclaimer
+Developers remain responsible for ensuring that protocol risk parameters are configured appropriately and that the
+operation and performance of a Chainlink Data Feed matches expectations. The performance of a Chainlink Data Feed may
+be affected by the availability or performance of a data provider. The composition or availability of a Chainlink Data
+Feed may change over time. Please review this webpage in its entirety and review the
+Chainlink Terms of
+Service
+ for important information and disclosures. By using Chainlink Data Feeds, you
+acknowledge and agree to these terms.
