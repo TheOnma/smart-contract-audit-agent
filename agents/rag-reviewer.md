@@ -66,5 +66,7 @@ Before flagging any hypothesis as worth investigating:
 3. Gas cost?
 4. MEV competition?
 5. Net = profit - gas - capital_cost > 0?
+6. Where will exploiting the protocol be profitable?
+7. 
 
 If net ≤ 0: downgrade to "griefing vector" or "informational" and don't pursue PoC.
