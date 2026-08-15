@@ -483,7 +483,7 @@ smart-contract-audit-agent/
 
 ## Tips
 
-**The false-positive RAG entries are worth more than the real findings.** When you add a new protocol's corpus, also add a `false-positives.md` documenting patterns that looked exploitable but weren't. This is what separates a junior who files 20 false positives per real finding from a senior who files 1:1.
+**The false-positive RAG entries are worth more than the real findings.** When you add a new protocol's corpus, also add a `false-positives.md` documenting patterns that looked exploitable but weren't. 
 
 **Run Pass 3 before every PoC.** The query takes 2 seconds. A PoC takes hours. The false-positive check has saved more time than any other single habit.
 
