@@ -3,6 +3,7 @@
 
 # Corpus PDFs (copyright — keep locally, share processed chunks)
 rag/corpus/**/*.pdf
+rag/corpus-dreusd/**/*.pdf
 
 # Python
 __pycache__/
