@@ -51,11 +51,11 @@ def get_embedding_function(openai_key: str) -> OpenAIEmbeddingFunction:
 # ── Severity / category detection ──────────────────────────────────────────
 
 SEVERITY_KEYWORDS = {
-    "critical": ["critical", "[c-"],
-    "high":     ["[h-", "high severity", "high risk", "severity: high"],
-    "medium":   ["[m-", "medium severity", "medium risk", "severity: medium"],
-    "low":      ["[l-", "low severity", "low risk", "severity: low"],
-    "info":     ["[i-", "informational", "severity: info", "gas"],
+    "critical": ["critical", "[c-", "[critical]", "[c]"],
+    "high":     ["[h-", "high severity", "high risk", "severity: high", "[high]"],
+    "medium":   ["[m-", "medium severity", "medium risk", "severity: medium", "[medium]"],
+    "low":      ["[l-", "low severity", "low risk", "severity: low", "[low]"],
+    "info":     ["[i-", "informational", "severity: info", "gas", "[info]", "[gas]"],
 }
 
 CATEGORY_KEYWORDS = {
@@ -107,8 +107,12 @@ MAX_CHUNK_CHARS = 4_000
 _FINDING_HEADER = re.compile(
     r"(?m)^#{1,4}\s+"
     r"(?:"
-    r"\[?[HMSLIChmslcritical\s]+[-]?\d+\]?"
-    r"|(?:Critical|High|Medium|Low|Info|Gas)\s*[-–:]?\s*\d*"
+    # C4 / Solodit: ## [[H-02] Title](url) or ## [M-01] Title
+    r"\[?\[?[HMCIL]-\d+\]?"
+    # Cantina: ## [MEDIUM] M-3 Title, ## [LOW], ## [GAS] G-1
+    r"|\[(?:CRITICAL|HIGH|MEDIUM|LOW|INFO|GAS)\]\s*[HMCILG]?-?\d*"
+    # Section headers: # High Risk Findings (8)
+    r"|(?:Critical|High|Medium|Low|Info|Gas)\s*(?:Risk|Severity|Findings)?\s*[-–:]?\s*\d*"
     r"|Finding\s+\d+"
     r"|Issue\s+\d+"
     r"|Bug\s+\d+"
