@@ -1,0 +1,285 @@
+{
+  "_comment": "Retrieval benchmark: 20 real, confirmed Code4rena/Cantina findings from rag/corpus-dreusd. Each query is phrased as an auditor would describe a suspected bug pattern while reading code (NOT the finding title verbatim), so the eval measures genuine retrieval, not title matching. ground_truth_ids = the finding's full span in the .rag/dreusd-db collection (header chunk + contiguous chunks until the next finding header), resolved from the rebuilt per-finding index.",
+  "k_default": 10,
+  "cases": [
+    {
+      "id": "bakerfi-first-depositor-inflation",
+      "protocol": "BakerFi",
+      "protocol_type": "oracle",
+      "source": "c4-bakerfi-vault-oracle-report.md",
+      "severity": "high",
+      "vuln_class": "erc4626-inflation",
+      "finding_title": "Vault is vulnerable to first depositor inflation attack",
+      "query": "first depositor mints tiny share supply then donates to inflate share price so later deposits lose value",
+      "ground_truth_ids": [
+        "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__1",
+        "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__2",
+        "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__3"
+      ]
+    },
+    {
+      "id": "bakerfi-h01-oracle-decimals",
+      "protocol": "BakerFi",
+      "protocol_type": "oracle",
+      "source": "c4-bakerfi-vault-oracle-report.md",
+      "severity": "high",
+      "vuln_class": "oracle-decimals",
+      "finding_title": "ETHOracle.getLatestPrice needs to convert to 18 decimals",
+      "query": "vault reads an ETH price feed that returns fewer than 18 decimals and uses the raw value directly as if it were 18-decimal wei, so collateral valuations are off by orders of magnitude",
+      "ground_truth_ids": [
+        "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__0"
+      ]
+    },
+    {
+      "id": "bakerfi-m06-oracle-bounds",
+      "protocol": "BakerFi",
+      "protocol_type": "oracle",
+      "source": "c4-bakerfi-vault-oracle-report.md",
+      "severity": "medium",
+      "vuln_class": "oracle-bounds",
+      "finding_title": "Min and maxAnswer never checked for oracle price feed",
+      "query": "chainlink price is consumed without checking the feed's min and max answer bounds, so an extreme or stale price is accepted as the market price",
+      "ground_truth_ids": [
+        "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14"
+      ]
+    },
+    {
+      "id": "renzo-queued-withdrawal-tvl-deflation",
+      "protocol": "Renzo (ezETH)",
+      "protocol_type": "oracle",
+      "source": "c4-renzo-oracle-report.md",
+      "severity": "high",
+      "vuln_class": "accounting-inflation",
+      "finding_title": "Incorrect calculation of queued withdrawals can deflate TVL and increase ezETH exchange rate",
+      "query": "withdrawal requests counted as TVL while ezETH not yet burned, inflating the exchange rate for remaining holders",
+      "ground_truth_ids": [
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__2",
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__3"
+      ]
+    },
+    {
+      "id": "renzo-h01-contract-recipient-lock",
+      "protocol": "Renzo (ezETH)",
+      "protocol_type": "oracle",
+      "source": "c4-renzo-oracle-report.md",
+      "severity": "high",
+      "vuln_class": "dos",
+      "finding_title": "Withdrawals can be locked forever if recipient is a contract",
+      "query": "withdrawal request whose recipient is a smart contract can never be claimed because the contract cannot call the claim function, permanently locking the funds",
+      "ground_truth_ids": [
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__0",
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__1"
+      ]
+    },
+    {
+      "id": "renzo-h03-eth-withdraw-fail",
+      "protocol": "Renzo (ezETH)",
+      "protocol_type": "oracle",
+      "source": "c4-renzo-oracle-report.md",
+      "severity": "high",
+      "vuln_class": "reentrancy",
+      "finding_title": "ETH withdrawals from EigenLayer always fail due to OperatorDelegator's nonReentrant receive()",
+      "query": "native ETH sent back from EigenLayer always reverts because the operator delegator's receive function is protected by nonReentrant, so ETH withdrawals can never complete",
+      "ground_truth_ids": [
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__4",
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__5"
+      ]
+    },
+    {
+      "id": "renzo-withdrawal-mev-slippage",
+      "protocol": "Renzo (ezETH)",
+      "protocol_type": "oracle",
+      "source": "c4-renzo-oracle-report.md",
+      "severity": "high",
+      "vuln_class": "mev-slippage",
+      "finding_title": "Withdrawals logic allows MEV exploits of TVL changes and zero-slippage zero-fee withdrawal",
+      "query": "withdraw executes immediately at current TVL with no slippage check or fee, sandwichable by MEV on price moves",
+      "ground_truth_ids": [
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__6",
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__7",
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__8",
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__9"
+      ]
+    },
+    {
+      "id": "renzo-dos-buffer-filled",
+      "protocol": "Renzo (ezETH)",
+      "protocol_type": "oracle",
+      "source": "c4-renzo-oracle-report.md",
+      "severity": "high",
+      "vuln_class": "dos",
+      "finding_title": "DOS of completeQueuedWithdrawal when ERC20 buffer is filled",
+      "query": "completeQueuedWithdrawal always reverts when the ERC20 buffer for a token is full, permanently blocking settlement",
+      "ground_truth_ids": [
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__17"
+      ]
+    },
+    {
+      "id": "renzo-h08-withdraw-queue-tvl",
+      "protocol": "Renzo (ezETH)",
+      "protocol_type": "oracle",
+      "source": "c4-renzo-oracle-report.md",
+      "severity": "high",
+      "vuln_class": "accounting",
+      "finding_title": "Incorrect withdraw queue balance in TVL calculation",
+      "query": "the withdraw queue's pending token balance is accounted for incorrectly in the TVL calculation, distorting the reported TVL and exchange rate while withdrawals are queued",
+      "ground_truth_ids": [
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__18",
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__19",
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__20"
+      ]
+    },
+    {
+      "id": "renzo-m03-stale-heartbeat",
+      "protocol": "Renzo (ezETH)",
+      "protocol_type": "oracle",
+      "source": "c4-renzo-oracle-report.md",
+      "severity": "medium",
+      "vuln_class": "oracle-staleness",
+      "finding_title": "Fixed heartbeat used for price validation is too stale for some tokens",
+      "query": "one fixed staleness heartbeat is applied to every price feed even though some assets update far more frequently, so stale prices are accepted as fresh",
+      "ground_truth_ids": [
+        "oracle_finding_class__solodit___c4-renzo-oracle-report__25"
+      ]
+    },
+    {
+      "id": "ethena-cooldown-not-applied",
+      "protocol": "Ethena (USDe)",
+      "protocol_type": "stablecoin",
+      "source": "c4-ethena-report.md",
+      "severity": "medium",
+      "vuln_class": "cooldown-timing",
+      "finding_title": "Users still forced to follow previously set cooldownDuration even when cooldown is turned off",
+      "query": "after admin lowers or disables the cooldown duration, already-queued unstake requests still enforce the old longer cooldown",
+      "ground_truth_ids": [
+        "ethena_usde__mint_redeem___c4-ethena-report__6",
+        "ethena_usde__mint_redeem___c4-ethena-report__7",
+        "ethena_usde__mint_redeem___c4-ethena-report__8",
+        "ethena_usde__mint_redeem___c4-ethena-report__9"
+      ]
+    },
+    {
+      "id": "ethena-m01-full-restricted-approval",
+      "protocol": "Ethena (USDe)",
+      "protocol_type": "stablecoin",
+      "source": "c4-ethena-report.md",
+      "severity": "medium",
+      "vuln_class": "access-control",
+      "finding_title": "FULL_RESTRICTED Stakers can bypass restriction through approvals",
+      "query": "a staker whose transfers are fully restricted can still move their staked tokens by routing through an existing allowance approval instead of a direct transfer",
+      "ground_truth_ids": [
+        "ethena_usde__mint_redeem___c4-ethena-report__0",
+        "ethena_usde__mint_redeem___c4-ethena-report__1",
+        "ethena_usde__mint_redeem___c4-ethena-report__2"
+      ]
+    },
+    {
+      "id": "ethena-susde-m01-blacklist-burn",
+      "protocol": "Ethena (UStb)",
+      "protocol_type": "staking-rewards",
+      "source": "c4-ethena-2024-report.md",
+      "severity": "medium",
+      "vuln_class": "access-control",
+      "finding_title": "Blacklisted user can burn tokens during WHITELIST_ENABLED state",
+      "query": "while the contract is in whitelist-enabled mode a blacklisted account can still burn its own tokens and redeem collateral, defeating the transfer restriction",
+      "ground_truth_ids": [
+        "ethena_susde__staking_vesting___c4-ethena-2024-report__0"
+      ]
+    },
+    {
+      "id": "ondo-h01-cash-redemption-loss",
+      "protocol": "Ondo (CASH)",
+      "protocol_type": "stablecoin",
+      "source": "c4-ondo-rwa-report.md",
+      "severity": "high",
+      "vuln_class": "logic",
+      "finding_title": "Loss of user funds when completing CASH redemptions",
+      "query": "when completing a redemption the user's cash tokens are moved or burned incorrectly so the redeeming user loses funds",
+      "ground_truth_ids": [
+        "ondo_rwa_stablecoin__c4-ondo-rwa-report__0",
+        "ondo_rwa_stablecoin__c4-ondo-rwa-report__1",
+        "ondo_rwa_stablecoin__c4-ondo-rwa-report__2"
+      ]
+    },
+    {
+      "id": "ondo-m04-kyc-replay",
+      "protocol": "Ondo (CASH)",
+      "protocol_type": "stablecoin",
+      "source": "c4-ondo-rwa-report.md",
+      "severity": "medium",
+      "vuln_class": "replay",
+      "finding_title": "KYCRegistry is susceptible to signature replay attack",
+      "query": "the same KYC approval signature can be replayed to register multiple different addresses because the signed message does not bind to a specific wallet",
+      "ground_truth_ids": [
+        "ondo_rwa_stablecoin__c4-ondo-rwa-report__7",
+        "ondo_rwa_stablecoin__c4-ondo-rwa-report__8"
+      ]
+    },
+    {
+      "id": "tapioca-nft-theft-approval",
+      "protocol": "Tapioca",
+      "protocol_type": "erc4626-vault",
+      "source": "c4-tapioca-report.md",
+      "severity": "high",
+      "vuln_class": "access-control",
+      "finding_title": "Adversary can steal user's NFT's if they have set Magnetar as isApprovedForAll",
+      "query": "user grants blanket approval to a batching contract, then any account can use that approval to transfer the user's NFTs",
+      "ground_truth_ids": [
+        "tapioca__toft___4626___c4-tapioca-report__22"
+      ]
+    },
+    {
+      "id": "tapioca-twaml-burn-grief",
+      "protocol": "Tapioca",
+      "protocol_type": "erc4626-vault",
+      "source": "c4-tapioca-report.md",
+      "severity": "medium",
+      "vuln_class": "griefing-governance",
+      "finding_title": "twAML weights can be griefed by burning tokens",
+      "query": "burning a small amount of tokens shifts twAML voting weight and can grief another user's reward eligibility",
+      "ground_truth_ids": [
+        "tapioca__toft___4626___c4-tapioca-report__36"
+      ]
+    },
+    {
+      "id": "ovault-hub-eid-transfer-fail",
+      "protocol": "LayerZero Ovault VaultComposerSync",
+      "protocol_type": "bridge-oft",
+      "source": "cantina-layerzero-ovault-2025.md",
+      "severity": "medium",
+      "vuln_class": "cross-chain-messaging",
+      "finding_title": "Transfers where dstEid == HUB_EID will fail",
+      "query": "cross-chain transfer that targets the hub chain itself uses the same endpoint id and always reverts",
+      "ground_truth_ids": [
+        "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__3"
+      ]
+    },
+    {
+      "id": "ovault-h1-refund-loss",
+      "protocol": "LayerZero Ovault VaultComposerSync",
+      "protocol_type": "bridge-oft",
+      "source": "cantina-layerzero-ovault-2025.md",
+      "severity": "high",
+      "vuln_class": "cross-chain-refund",
+      "finding_title": "Permanent loss of user funds due to logical error in refunds",
+      "query": "when a cross-chain transfer fails the refund path sends the tokens to the wrong party or keeps them stuck, permanently losing user funds",
+      "ground_truth_ids": [
+        "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__0"
+      ]
+    },
+    {
+      "id": "ovault-m2-slippage-locked",
+      "protocol": "LayerZero Ovault VaultComposerSync",
+      "protocol_type": "bridge-oft",
+      "source": "cantina-layerzero-ovault-2025.md",
+      "severity": "medium",
+      "vuln_class": "slippage",
+      "finding_title": "Funds locked if slippage params cannot be satisfied",
+      "query": "when a deposit's expected output cannot be satisfied the transaction is marked failed and the funds stay locked with no way to retry the swap",
+      "ground_truth_ids": [
+        "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__2"
+      ]
+    }
+  ]
+}

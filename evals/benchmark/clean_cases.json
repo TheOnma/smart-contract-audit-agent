@@ -1,0 +1,101 @@
+{
+  "_comment": "Negative cases for the end-to-end detection eval: code surfaces that are NOT vulnerable. Ground truth: no candidate finding should be surfaced (similarity >= threshold) — anything surfaced is a false positive. These are standard, well-guarded implementations in domains far from the corpus findings (plus one guarded oracle, the 'fixed' version of a corpus finding, to test whether the FP corpus + gate saves the reviewer).",
+  "clean_cases": [
+    {
+      "id": "clean-multisig",
+      "protocol_type": "lending",
+      "notes": "Gnosis-Safe-style execTransaction with nonce, threshold, and signature validation.",
+      "code_surface": [
+        "// Safe execTransaction",
+        "function execTransaction(address to, uint256 value, bytes calldata data,",
+        "    Enum.Operation operation, uint256 safeTxGas, uint256 baseGas, uint256 gasPrice,",
+        "    address gasToken, address payable refundReceiver, bytes memory signatures) external returns (bool)",
+        "{",
+        "    bytes32 txHash = getTransactionHash(to, value, data, operation, safeTxGas,",
+        "        baseGas, gasPrice, gasToken, refundReceiver, nonce);",
+        "    checkSignatures(txHash, signatures);",
+        "    require(threshold == signaturesCount(txHash, signatures), \"threshold not met\");",
+        "    nonce++;",
+        "    require(execute(to, value, data, operation, gasToken, gasPrice) != 0, \"execution failed\");",
+        "}"
+      ]
+    },
+    {
+      "id": "clean-timelock",
+      "protocol_type": "lending",
+      "notes": "TimelockController-style: proposal scheduled with delay, only executed after the delay elapses.",
+      "code_surface": [
+        "// TimelockController",
+        "function schedule(address target, uint256 value, bytes calldata data,",
+        "    bytes32 predecessor, bytes32 salt, uint256 delay) public virtual {",
+        "    require(msg.sender == address(this) || hasRole(PROPOSER_ROLE, msg.sender), \"not proposer\");",
+        "    bytes32 id = hashOperation(target, value, data, predecessor, salt);",
+        "    require(getTimestamp(id) == 0, \"already scheduled\");",
+        "    require(delay >= getMinDelay(), \"delay too short\");",
+        "    _timestamps[id] = block.timestamp + delay;",
+        "}",
+        "function execute(...) external payable {",
+        "    require(getTimestamp(id) != 0 && block.timestamp >= getTimestamp(id), \"not ready\");",
+        "}"
+      ]
+    },
+    {
+      "id": "clean-merkle",
+      "protocol_type": "lending",
+      "notes": "Standard merkle airdrop with verified proof and claimed-bitmap, owner-gated.",
+      "code_surface": [
+        "// MerkleAirdrop",
+        "function claim(address account, uint256 amount, bytes32[] calldata merkleProof) external {",
+        "    require(!claimed[account], \"already claimed\");",
+        "    bytes32 leaf = keccak256(abi.encodePacked(account, amount));",
+        "    require(MerkleProof.verify(merkleProof, merkleRoot, leaf), \"invalid proof\");",
+        "    claimed[account] = true;",
+        "    token.safeTransfer(account, amount);",
+        "}",
+        "function setMerkleRoot(bytes32 _merkleRoot) external onlyOwner {",
+        "    merkleRoot = _merkleRoot;",
+        "}"
+      ]
+    },
+    {
+      "id": "clean-erc20",
+      "protocol_type": "lending",
+      "notes": "OpenZeppelin-style ERC20: checks-effects-interactions, allowance decremented before transfer.",
+      "code_surface": [
+        "// ERC20 transferFrom",
+        "function transferFrom(address from, address to, uint256 amount) public virtual override returns (bool) {",
+        "    address spender = _msgSender();",
+        "    _spendAllowance(from, spender, amount);",
+        "    _transfer(from, to, amount);",
+        "    return true;",
+        "}",
+        "function _transfer(address from, address to, uint256 amount) internal virtual {",
+        "    require(from != address(0), \"ERC20: transfer from the zero address\");",
+        "    require(to != address(0), \"ERC20: transfer to the zero address\");",
+        "    uint256 fromBalance = _balances[from];",
+        "    require(fromBalance >= amount, \"ERC20: transfer amount exceeds balance\");",
+        "    unchecked { _balances[from] = fromBalance - amount; }",
+        "    _balances[to] += amount;",
+        "    emit Transfer(from, to, amount);",
+        "}"
+      ]
+    },
+    {
+      "id": "clean-oracle-guarded",
+      "protocol_type": "lending",
+      "notes": "The FIXED version of the corpus oracle findings: Chainlink read with min/max bounds, staleness window, and decimals conversion all present.",
+      "code_surface": [
+        "// ETHOracle with full guards",
+        "function getLatestPrice() public view override returns (IOracle.Price memory price) {",
+        "    (, int256 answer, , uint256 updatedAt, ) = _ethPriceFeed.latestRoundData();",
+        "    if (answer <= int256(_minAnswer)) revert InvalidPriceFromOracle();",
+        "    if (answer >= int256(_maxAnswer)) revert InvalidPriceFromOracle();",
+        "    if (block.timestamp - updatedAt > _stalePeriod) revert StalePrice();",
+        "    price.price = uint256(answer) * 1e10; // convert 8-decimal feed to 18",
+        "    price.lastUpdate = updatedAt;",
+        "}",
+        "// _minAnswer/_maxAnswer/_stalePeriod set by owner per feed"
+      ]
+    }
+  ]
+}

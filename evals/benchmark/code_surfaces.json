@@ -1,0 +1,341 @@
+{
+  "_comment": "End-to-end detection eval inputs. Each code_surface is what an auditor sees while reading the target contract: function signatures, identifiers, and key logic fragments taken from the real C4/Cantina reports in corpus-dreusd (function names, variable names, structs, modifiers). They deliberately contain NO vulnerability language — the vulnerability is what is MISSING from the code, exactly as in a real review. ids join to evals/benchmark/cases.json for ground truth.",
+  "surfaces": [
+    {
+      "id": "bakerfi-first-depositor-inflation",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// contracts/core/Vault.sol",
+        "struct Rebase { uint256 elastic; uint256 base; }",
+        "function deposit(uint256 assets, address receiver) external returns (uint256 shares) {",
+        "    Rebase memory total = Rebase(_totalAssets(), totalSupply());",
+        "    shares = assets.mulDivDown(total.base, total.elastic);",
+        "    _mint(receiver, shares);",
+        "    _deposit(assets, receiver);",
+        "}",
+        "function _totalAssets() internal view returns (uint256);"
+      ]
+    },
+    {
+      "id": "bakerfi-h01-oracle-decimals",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// contracts/oracles/EthOracle.sol",
+        "contract ETHOracle is IOracle {",
+        "    IChainlinkAggregator private immutable _ethPriceFeed;",
+        "    uint256 private constant _PRECISION = 10 ** 18;",
+        "    function getLatestPrice() public view override returns (IOracle.Price memory price) {",
+        "        (, int256 answer, uint256 startedAt, uint256 updatedAt,) = _ethPriceFeed.latestRoundData();",
+        "        if (answer <= 0) revert InvalidPriceFromOracle();",
+        "        price.price = uint256(answer);",
+        "        price.lastUpdate = updatedAt;",
+        "    }",
+        "    function getPrecision() external pure returns (uint256) { return _PRECISION; }",
+        "}"
+      ]
+    },
+    {
+      "id": "bakerfi-m06-oracle-bounds",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// EthOracle.sol#L31",
+        "function getLatestPrice() public view override returns (IOracle.Price memory price) {",
+        "    (, int256 answer, uint256 startedAt, uint256 updatedAt,) = _ethPriceFeed.latestRoundData();",
+        "    if (answer <= 0) revert InvalidPriceFromOracle();",
+        "    if (startedAt == 0 || updatedAt == 0) revert InvalidPriceUpdatedAt();",
+        "    price.price = uint256(answer);",
+        "    price.lastUpdate = updatedAt;",
+        "    return price;",
+        "}"
+      ]
+    },
+    {
+      "id": "renzo-queued-withdrawal-tvl-deflation",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// contracts/Withdraw/WithdrawQueue.sol",
+        "struct WithdrawRequest {",
+        "    address recipient;",
+        "    uint256 amountToRedeem;",
+        "    address asset;",
+        "    uint256 withdrawRequestNonce;",
+        "}",
+        "// contracts/RestakeManager.sol",
+        "function calculateTVLs() public view returns (uint256, uint256, uint256) {",
+        "    uint256 totalTVL;",
+        "    for (uint256 i = 0; i < operatorDelegators.length; i++) {",
+        "        totalTVL += operatorDelegators[i].getTVL();",
+        "    }",
+        "    totalTVL += withdrawQueue.getWithdrawRequestTotalAmount();",
+        "    ...",
+        "}",
+        "// ezETH exchange rate derived from totalTVL / totalSupply"
+      ]
+    },
+    {
+      "id": "renzo-h01-contract-recipient-lock",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// contracts/Withdraw/WithdrawQueue.sol",
+        "function claim(uint256 withdrawRequestNonce) external nonReentrant {",
+        "    WithdrawRequest memory request = withdrawRequests[msg.sender][withdrawRequestNonce];",
+        "    ...",
+        "    if (request.asset == IS_NATIVE) {",
+        "        payable(msg.sender).transfer(request.amountToRedeem);",
+        "    } else {",
+        "        IERC20(request.asset).safeTransfer(msg.sender, request.amountToRedeem);",
+        "    }",
+        "    delete withdrawRequests[msg.sender][withdrawRequestNonce];",
+        "}"
+      ]
+    },
+    {
+      "id": "renzo-h03-eth-withdraw-fail",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// contracts/Delegation/OperatorDelegator.sol",
+        "function completeQueuedWithdrawal(QueuedWithdrawal calldata queuedWithdrawal,",
+        "    IERC20[] calldata tokens, uint256 middlewareTimesIndex) external ...",
+        "    ...",
+        "}",
+        "// receives ETH returned from EigenLayer strategy withdrawals",
+        "receive() external payable nonReentrant {",
+        "    ...",
+        "}"
+      ]
+    },    {
+      "id": "renzo-withdrawal-mev-slippage",
+      "protocol_type": "oracle",
+      "code_surface": [
+        "// contracts/Withdraw/WithdrawQueue.sol",
+        "function withdraw(uint256 _amountToRedeem, address _assetOut, uint256 _withdrawRequestNonce) external {",
+        "    // ezETH amount -> collateral amount conversion happens HERE, at request time,",
+        "    // using the current oracle prices and TVL calculation",
+        "    uint256 amountToRedeem = _calculateRedeemAmount(_amountToRedeem, _assetOut);",
+        "    withdrawRequests[msg.sender][_withdrawRequestNonce] = WithdrawRequest({",
+        "        withdrawer: msg.sender,",
+        "        asset: _assetOut,",
+        "        amountToRedeem: amountToRedeem,",
+        "        withdrawRequestNonce: _withdrawRequestNonce",
+        "    });",
+        "}",
+        "function claim(uint256 withdrawRequestIndex) external nonReentrant {",
+        "    WithdrawRequest storage request = withdrawRequests[msg.sender][withdrawRequestIndex];",
+        "    // sends request.amountToRedeem as stored — no re-conversion at claim time",
+        "}"
+      ]
+    },
+    {
+      "id": "ethena-susde-m01-blacklist-burn",
+      "protocol_type": "staking-rewards",
+      "code_surface": [
+        "// contracts/ustb/UStb.sol (from c4-ethena-2024-report.md, M-01 PoC)",
+        "function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual override {",
+        "    if (transferState == TransferState.WHITELIST_ENABLED) {",
+        "        if (hasRole(MINTER_CONTRACT, msg.sender) && !hasRole(BLACKLISTED_ROLE, from) && to == address(0)) {",
+        "            // minter burn path",
+        "        } else if (hasRole(WHITELISTED_ROLE, msg.sender) && hasRole(WHITELISTED_ROLE, from) && to == address(0)) {",
+        "            // whitelisted user can burn",
+        "        }",
+        "    }",
+        "    super._beforeTokenTransfer(from, to, amount);",
+        "}"
+      ]
+    },
+    {
+      "id": "renzo-dos-buffer-filled",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// contracts/Delegation/OperatorDelegator.sol#L299-L303",
+        "function completeQueuedWithdrawal(Withdrawal calldata withdrawal,",
+        "    IERC20[] calldata tokens, uint256 middlewareTimesIndex) external {",
+        "    ...",
+        "    uint256 bufferToFill = bufferToFill(token);",
+        "    if (bufferToFill > 0) {",
+        "        ...",
+        "    }",
+        "    ...",
+        "}"
+      ]
+    },
+    {
+      "id": "renzo-h08-withdraw-queue-tvl",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// contracts/RestakeManager.sol",
+        "function calculateTVLs() public view returns (uint256 totalTVL, ...) {",
+        "    totalTVL = getTotalTVL();",
+        "    ...",
+        "    // withdraw queue pending balances feed into TVL",
+        "    uint256 queueTVL = withdrawQueue.getWithdrawRequestTotalAmount();",
+        "    ...",
+        "}"
+      ]
+    },
+    {
+      "id": "renzo-m03-stale-heartbeat",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// contracts/Bridge/L2/Oracle/RenzoOracleL2.sol",
+        "uint256 public constant MAX_TIME_WINDOW = 86400 + 60; // 24 hours + 60 seconds",
+        "function getMintRate() public view returns (uint256, uint256) {",
+        "    (, int256 exchangeRate, , uint256 updatedAt, ) = oracle.latestRoundData();",
+        "    if (block.timestamp - updatedAt > MAX_TIME_WINDOW) revert OracleStalePrice();",
+        "    ...",
+        "}"
+      ]
+    },
+    {
+      "id": "ethena-cooldown-not-applied",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// StakedUSDeV2.sol",
+        "modifier ensureCooldownOn() {",
+        "    uint256 cooldownDuration = cooldownDuration;",
+        "    if (cooldownDuration > 0) {",
+        "        uint256 cooldownEnd = lastUnstakeTime[msg.sender] + cooldownDuration;",
+        "        require(block.timestamp >= cooldownEnd, \"Cooldown not finished\");",
+        "    }",
+        "    _;",
+        "}",
+        "function unstake(uint256 amount) external nonReentrant ensureCooldownOn {",
+        "    ...",
+        "}"
+      ]
+    },
+    {
+      "id": "ethena-m01-full-restricted-approval",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// StakedUSDeV2.sol",
+        "bytes32 public constant FULL_RESTRICTED = keccak256(\"FULL_RESTRICTED\");",
+        "bytes32 public constant FULL_ACCESS = keccak256(\"FULL_ACCESS\");",
+        "function _transfer(address from, address to, uint256 amount) internal override {",
+        "    if (hasRole(FULL_RESTRICTED, from)) revert OperationNotAllowed();",
+        "    if (hasRole(FULL_RESTRICTED, to) && !hasRole(FULL_ACCESS, msg.sender)) revert OperationNotAllowed();",
+        "    super._transfer(from, to, amount);",
+        "}",
+        "function transferFrom(address from, address to, uint256 amount) public virtual override returns (bool)",
+        "    // allowance path"
+      ]
+    },
+    {
+      "id": "ondo-h01-cash-redemption-loss",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// contracts/cash/CashManager.sol",
+        "function completeRedemptions(",
+        "    address[] calldata redeemers,",
+        "    address[] calldata refundees,",
+        "    uint256 collateralAmountToDist,",
+        "    uint256 epochToService,",
+        "    uint256 fees",
+        ") external override updateEpoch onlyRole(MANAGER_ADMIN) {",
+        "    _checkAddressesKYC(redeemers);",
+        "    _checkAddressesKYC(refundees);",
+        "    ...",
+        "}"
+      ]
+    },
+    {
+      "id": "ondo-m04-kyc-replay",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// KYCRegistry.sol",
+        "function addKYCAddressViaSignature(",
+        "    uint256 _kycRequirementGroup,",
+        "    address _user,",
+        "    uint256 _expiry,",
+        "    uint8 _v,",
+        "    bytes32 _r,",
+        "    bytes32 _s",
+        ") external {",
+        "    require(_v == 27 || _v == 28, \"KYCRegistry: invalid v value\");",
+        "    bytes32 digest = keccak256(abi.encodePacked(_kycRequirementGroup, _user, _expiry));",
+        "    address signer = ecrecover(digest, _v, _r, _s);",
+        "    ...",
+        "}"
+      ]
+    },
+    {
+      "id": "tapioca-nft-theft-approval",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// Magnetar.sol",
+        "function _processPermitOperation(address _target, bytes calldata _actionCalldata, bool _allowFailure) private {",
+        "    if (!cluster.isWhitelisted(0, _target)) revert Magnetar_NotAuthorized(_target, _target);",
+        "    // permitAction(bytes,uint16) / permit(address owner...) / revoke(address owner...)",
+        "    // permitAll(address from,..) / permit(address from,...) / setApprovalForAll(address from,...)",
+        "    bytes4 funcSig = bytes4(_actionCalldata[:4]);",
+        "    (bool success, bytes memory result) = _target.call(_actionCalldata);",
+        "    ...",
+        "}"
+      ]
+    },
+    {
+      "id": "tapioca-twaml-burn-grief",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// TOB.sol — twAML voting weight",
+        "bool hasVotingPower = lock.ybShares >= computeMinWeight(",
+        "    pool.totalDeposited + VIRTUAL_TOTAL_AMOUNT,",
+        "    MIN_WEIGHT_FACTOR",
+        ");",
+        "pool.averageMagnitude = (pool.averageMagnitude + magnitude) / pool.totalParticipants;",
+        "divergenceForce = lock.lockDuration >= pool.cumulative;",
+        "if (divergenceForce) { pool.cumulative += pool.averageMagnitude; }",
+        "else { if (pool.cumulative > pool.averageMagnitude) { pool.cumulative -= pool.averageMagnitude; } }"
+      ]
+    },
+    {
+      "id": "ovault-hub-eid-transfer-fail",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// OVaultComposer.sol",
+        "function lzCompose(address _from, bytes32 _guid, bytes calldata _message, address, bytes calldata) external",
+        "    // uses send()",
+        "function refund(bytes32 _guid, bytes calldata _extraOptions) external payable",
+        "    // uses _send()",
+        "function retryWithSwap(bytes32 _guid, ...) external payable",
+        "    // uses _send()",
+        "if (_sendParam.dstEid == HUB_EID) {",
+        "    address _receiver = _sendParam.to.bytes32ToAddress();",
+        "    IERC20(IOFT(_oft).token()).transfer(_receiver, _sendParam.amountLD);",
+        "    if (msg.value > 0) { (bool sent,) = _receiver.call{value: msg.value}(\"\"); require(sent); }",
+        "    emit SentOnHub(_receiver, _oft, _sendParam.amountLD);",
+        "    return;",
+        "}"
+      ]
+    },
+    {
+      "id": "ovault-h1-refund-loss",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// OVaultComposer.sol",
+        "struct FailedMessage { SendParam sendParam; bytes extraOptions; }",
+        "mapping(bytes32 => FailedMessage) public failedMessages;",
+        "function refund(bytes32 _guid, bytes calldata _extraOptions) external payable nonReentrant {",
+        "    FailedMessage memory failedMessage = failedMessages[_guid];",
+        "    SendParam memory refundSendParam = failedMessage.sendParam;",
+        "    try this.decodeSendParam(sendParamEncoded) returns (SendParam memory sendParamDecoded) {",
+        "        sendParam = sendParamDecoded;",
+        "        sendParam.amountLD = 0;",
+        "    } catch { ... }",
+        "    ...",
+        "}"
+      ]
+    },
+    {
+      "id": "ovault-m2-slippage-locked",
+      "protocol_type": "lending",
+      "code_surface": [
+        "// OVaultComposer.sol#L177",
+        "function retryWithSwap(bytes32 _guid, bytes calldata _extraOptions,",
+        "    uint256 minAmountLD, uint256 minSwapAmountLD) external payable {",
+        "    ...",
+        "    // deposit path: if output < expected, tx marked failed and retried here",
+        "}"
+      ]
+    }
+  ]
+}

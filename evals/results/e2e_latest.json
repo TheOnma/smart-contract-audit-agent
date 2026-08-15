@@ -1,0 +1,1478 @@
+{
+  "summary": {
+    "n_positive": 20,
+    "n_clean": 5,
+    "thresholds": [
+      0.4,
+      0.5,
+      0.6
+    ],
+    "detection_rate": {
+      "0.4": 0.95,
+      "0.5": 0.95,
+      "0.6": 0.75
+    },
+    "top_candidate_rate": {
+      "0.4": 0.474,
+      "0.5": 0.474,
+      "0.6": 0.533
+    },
+    "mean_candidates_per_review": {
+      "0.4": 7,
+      "0.5": 4.95,
+      "0.6": 3
+    },
+    "false_positive_rate": {
+      "0.4": 1,
+      "0.5": 0.6,
+      "0.6": 0.4
+    },
+    "false_positive_rate_after_gate": {
+      "0.4": 0,
+      "0.5": 0,
+      "0.6": 0
+    },
+    "fp_gate_caught": {
+      "0.4": 5,
+      "0.5": 3,
+      "0.6": 2
+    },
+    "pass1_only": {
+      "0.4": 17,
+      "0.5": 19,
+      "0.6": 15
+    },
+    "pass2_only": {
+      "0.4": 0,
+      "0.5": 0,
+      "0.6": 0
+    },
+    "both_passes": {
+      "0.4": 2,
+      "0.5": 0,
+      "0.6": 0
+    },
+    "pass2_skipped": {
+      "0.4": 10,
+      "0.5": 10,
+      "0.6": 10
+    },
+    "fp_gate_overlap": {
+      "0.4": 20,
+      "0.5": 8,
+      "0.6": 5
+    },
+    "misses": {
+      "0.4": [
+        "ethena-susde-m01-blacklist-burn"
+      ],
+      "0.5": [
+        "ethena-susde-m01-blacklist-burn"
+      ],
+      "0.6": [
+        "bakerfi-m06-oracle-bounds",
+        "renzo-h08-withdraw-queue-tvl",
+        "ethena-susde-m01-blacklist-burn",
+        "tapioca-twaml-burn-grief",
+        "ovault-hub-eid-transfer-fail"
+      ]
+    },
+    "fp_clean_cases": {
+      "0.4": [
+        "clean-multisig",
+        "clean-timelock",
+        "clean-merkle",
+        "clean-erc20",
+        "clean-oracle-guarded"
+      ],
+      "0.5": [
+        "clean-multisig",
+        "clean-erc20",
+        "clean-oracle-guarded"
+      ],
+      "0.6": [
+        "clean-erc20",
+        "clean-oracle-guarded"
+      ]
+    },
+    "avg_latency_s": 3.28,
+    "est_cost_per_review_usd": 4.99e-06
+  },
+  "positive": [
+    {
+      "id": "bakerfi-first-depositor-inflation",
+      "protocol": "BakerFi",
+      "severity": "high",
+      "vuln_class": "erc4626-inflation",
+      "latency_s": 4.34,
+      "est_cost_usd": 4.5e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__1",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__10",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__2",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__3",
+            "morpho_metamorpho__cantina-metamorpho__5",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__50",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__18",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__0"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "arithmetic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.624
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__1",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__10",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__2",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__3",
+            "morpho_metamorpho__cantina-metamorpho__5"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "arithmetic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.624
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__1"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "arithmetic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.624
+        }
+      }
+    },
+    {
+      "id": "bakerfi-h01-oracle-decimals",
+      "protocol": "BakerFi",
+      "severity": "high",
+      "vuln_class": "oracle-decimals",
+      "latency_s": 3.27,
+      "est_cost_usd": 6.35e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__0",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__64",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__18",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__50"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": true,
+          "pass2_skipped": false,
+          "category_signal": "arithmetic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.659
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__0",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__64",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__18"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "arithmetic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.659
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__0",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "arithmetic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.659
+        }
+      }
+    },
+    {
+      "id": "bakerfi-m06-oracle-bounds",
+      "protocol": "BakerFi",
+      "severity": "medium",
+      "vuln_class": "oracle-bounds",
+      "latency_s": 3.14,
+      "est_cost_usd": 4.6e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__0",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__64",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__45",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__18",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__50",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__5"
+          ],
+          "gt_rank": 3,
+          "detected": true,
+          "pass1": true,
+          "pass2": true,
+          "pass2_skipped": false,
+          "category_signal": "oracle",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.592
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__0",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__64",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__45",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57"
+          ],
+          "gt_rank": 3,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "oracle",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.592
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__0"
+          ],
+          "gt_rank": null,
+          "detected": false,
+          "pass1": false,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "oracle",
+          "fp_overlap": true,
+          "gt_hit_similarity": null
+        }
+      }
+    },
+    {
+      "id": "renzo-queued-withdrawal-tvl-deflation",
+      "protocol": "Renzo (ezETH)",
+      "severity": "high",
+      "vuln_class": "accounting-inflation",
+      "latency_s": 2.36,
+      "est_cost_usd": 5.74e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "lido_withdrawal_queue__hexens-lido-v2__13",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__2",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__12",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__24"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.612
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "lido_withdrawal_queue__hexens-lido-v2__13",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__2",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__12",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__24"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.612
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "lido_withdrawal_queue__hexens-lido-v2__13",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__2",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__12"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.612
+        }
+      }
+    },
+    {
+      "id": "renzo-h01-contract-recipient-lock",
+      "protocol": "Renzo (ezETH)",
+      "severity": "high",
+      "vuln_class": "dos",
+      "latency_s": 4.81,
+      "est_cost_usd": 5.12e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__24",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__0",
+            "lido_withdrawal_queue__hexens-lido-v2__13",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__23",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__50",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__44",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__18"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.633
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__24",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__0",
+            "lido_withdrawal_queue__hexens-lido-v2__13",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__23",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.633
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__24",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__0",
+            "lido_withdrawal_queue__hexens-lido-v2__13"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.633
+        }
+      }
+    },
+    {
+      "id": "renzo-h03-eth-withdraw-fail",
+      "protocol": "Renzo (ezETH)",
+      "severity": "high",
+      "vuln_class": "reentrancy",
+      "latency_s": 3.43,
+      "est_cost_usd": 3.63e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__4",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__21",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__17",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__42",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__50",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__44",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__18"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.681
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__4",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__21",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__17",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__42",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.681
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__4",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__21",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__17",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__42"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.681
+        }
+      }
+    },
+    {
+      "id": "renzo-withdrawal-mev-slippage",
+      "protocol": "Renzo (ezETH)",
+      "severity": "high",
+      "vuln_class": "mev-slippage",
+      "latency_s": 3.83,
+      "est_cost_usd": 8.84e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__24",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__0",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__9",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__12",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__50",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__44",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__18"
+          ],
+          "gt_rank": 3,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.623
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__24",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__0",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__9",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__12",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57"
+          ],
+          "gt_rank": 3,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.623
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__24",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__0",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__9",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__12",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16"
+          ],
+          "gt_rank": 3,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.623
+        }
+      }
+    },
+    {
+      "id": "renzo-dos-buffer-filled",
+      "protocol": "Renzo (ezETH)",
+      "severity": "high",
+      "vuln_class": "dos",
+      "latency_s": 2.6,
+      "est_cost_usd": 3.27e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__42",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__17",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__21",
+            "lido_withdrawal_queue__hexens-lido-v2__13"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.83
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__42",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__17",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__21",
+            "lido_withdrawal_queue__hexens-lido-v2__13"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.83
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__16",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__42",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__17",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__21",
+            "lido_withdrawal_queue__hexens-lido-v2__13"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.83
+        }
+      }
+    },
+    {
+      "id": "renzo-h08-withdraw-queue-tvl",
+      "protocol": "Renzo (ezETH)",
+      "severity": "high",
+      "vuln_class": "accounting",
+      "latency_s": 2.35,
+      "est_cost_usd": 2.96e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__30",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__20",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__2",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__31",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__48"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.563
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__30",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__20",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__2",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__31",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__48"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.563
+        },
+        "0.6": {
+          "surfaced_ids": [],
+          "gt_rank": null,
+          "detected": false,
+          "pass1": false,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": null
+        }
+      }
+    },
+    {
+      "id": "renzo-m03-stale-heartbeat",
+      "protocol": "Renzo (ezETH)",
+      "severity": "medium",
+      "vuln_class": "oracle-staleness",
+      "latency_s": 3.46,
+      "est_cost_usd": 4.01e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__45",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__72",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__25",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__44",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__56",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__18",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__50",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__5"
+          ],
+          "gt_rank": 3,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "oracle",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.638
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__45",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__72",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__25",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__44",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__56",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57"
+          ],
+          "gt_rank": 3,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "oracle",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.638
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__45",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__72",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__25",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__44",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__56"
+          ],
+          "gt_rank": 3,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "oracle",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.638
+        }
+      }
+    },
+    {
+      "id": "ethena-cooldown-not-applied",
+      "protocol": "Ethena (USDe)",
+      "severity": "medium",
+      "vuln_class": "cooldown-timing",
+      "latency_s": 3.48,
+      "est_cost_usd": 4.25e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "ethena_usde__mint_redeem___c4-ethena-report__8",
+            "ethena_usde__mint_redeem___c4-ethena-report__9",
+            "ethena_usde__mint_redeem___c4-ethena-report__7",
+            "ethena_usde__mint_redeem___c4-ethena-report__31",
+            "ethena_usde__mint_redeem___c4-ethena-report__6",
+            "crvusd__curve_stablecoin___mixbytes-crvusd__3",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__5",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__4",
+            "crvusd__curve_stablecoin___mixbytes-crvusd__1",
+            "crvusd__curve_stablecoin___mixbytes-crvusd__2"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.709
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "ethena_usde__mint_redeem___c4-ethena-report__8",
+            "ethena_usde__mint_redeem___c4-ethena-report__9",
+            "ethena_usde__mint_redeem___c4-ethena-report__7",
+            "ethena_usde__mint_redeem___c4-ethena-report__31",
+            "ethena_usde__mint_redeem___c4-ethena-report__6",
+            "crvusd__curve_stablecoin___mixbytes-crvusd__3",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__5",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__4",
+            "crvusd__curve_stablecoin___mixbytes-crvusd__1"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.709
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "ethena_usde__mint_redeem___c4-ethena-report__8",
+            "ethena_usde__mint_redeem___c4-ethena-report__9",
+            "ethena_usde__mint_redeem___c4-ethena-report__7",
+            "ethena_usde__mint_redeem___c4-ethena-report__31",
+            "ethena_usde__mint_redeem___c4-ethena-report__6"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.709
+        }
+      }
+    },
+    {
+      "id": "ethena-m01-full-restricted-approval",
+      "protocol": "Ethena (USDe)",
+      "severity": "medium",
+      "vuln_class": "access-control",
+      "latency_s": 3.32,
+      "est_cost_usd": 6e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "ethena_usde__mint_redeem___c4-ethena-report__0",
+            "ethena_usde__mint_redeem___c4-ethena-report__5",
+            "ethena_usde__mint_redeem___c4-ethena-report__1",
+            "ethena_usde__mint_redeem___c4-ethena-report__21",
+            "ethena_usde__mint_redeem___c4-ethena-report__8"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.661
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "ethena_usde__mint_redeem___c4-ethena-report__0",
+            "ethena_usde__mint_redeem___c4-ethena-report__5",
+            "ethena_usde__mint_redeem___c4-ethena-report__1",
+            "ethena_usde__mint_redeem___c4-ethena-report__21",
+            "ethena_usde__mint_redeem___c4-ethena-report__8"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.661
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "ethena_usde__mint_redeem___c4-ethena-report__0",
+            "ethena_usde__mint_redeem___c4-ethena-report__5",
+            "ethena_usde__mint_redeem___c4-ethena-report__1",
+            "ethena_usde__mint_redeem___c4-ethena-report__21"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.661
+        }
+      }
+    },
+    {
+      "id": "ethena-susde-m01-blacklist-burn",
+      "protocol": "Ethena (UStb)",
+      "severity": "medium",
+      "vuln_class": "access-control",
+      "latency_s": 3.95,
+      "est_cost_usd": 6.15e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "ethena_susde__staking_vesting___spearbit-ethena-susde-oct__2",
+            "ethena_susde__staking_vesting___c4-ethena-2024-report__11",
+            "ethena_susde__staking_vesting___c4-ethena-2024-report__14",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__15",
+            "ethena_susde__staking_vesting___c4-ethena-2024-report__13"
+          ],
+          "gt_rank": null,
+          "detected": false,
+          "pass1": false,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": null
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "ethena_susde__staking_vesting___spearbit-ethena-susde-oct__2",
+            "ethena_susde__staking_vesting___c4-ethena-2024-report__11",
+            "ethena_susde__staking_vesting___c4-ethena-2024-report__14",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__15",
+            "ethena_susde__staking_vesting___c4-ethena-2024-report__13"
+          ],
+          "gt_rank": null,
+          "detected": false,
+          "pass1": false,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": null
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "ethena_susde__staking_vesting___spearbit-ethena-susde-oct__2",
+            "ethena_susde__staking_vesting___c4-ethena-2024-report__11",
+            "ethena_susde__staking_vesting___c4-ethena-2024-report__14",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__15",
+            "ethena_susde__staking_vesting___c4-ethena-2024-report__13"
+          ],
+          "gt_rank": null,
+          "detected": false,
+          "pass1": false,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": null
+        }
+      }
+    },
+    {
+      "id": "ondo-h01-cash-redemption-loss",
+      "protocol": "Ondo (CASH)",
+      "severity": "high",
+      "vuln_class": "logic",
+      "latency_s": 2.57,
+      "est_cost_usd": 3.73e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__0",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__1",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__19",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__21",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__2"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.743
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__0",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__1",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__19",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__21",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__2"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.743
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__0",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__1",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__19",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__21",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__2"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.743
+        }
+      }
+    },
+    {
+      "id": "ondo-m04-kyc-replay",
+      "protocol": "Ondo (CASH)",
+      "severity": "medium",
+      "vuln_class": "replay",
+      "latency_s": 2.52,
+      "est_cost_usd": 4.26e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__17",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__7",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__8",
+            "layerzero_v2__oft_oapp___zellic-lz-endpoint-v2__8",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__37"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.614
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__17",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__7",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__8"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.614
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__17",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__7"
+          ],
+          "gt_rank": 2,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.614
+        }
+      }
+    },
+    {
+      "id": "tapioca-nft-theft-approval",
+      "protocol": "Tapioca",
+      "severity": "high",
+      "vuln_class": "access-control",
+      "latency_s": 2.28,
+      "est_cost_usd": 5.63e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "tapioca__toft___4626___c4-tapioca-report__67",
+            "tapioca__toft___4626___c4-tapioca-report__20",
+            "tapioca__toft___4626___c4-tapioca-report__25",
+            "tapioca__toft___4626___c4-tapioca-report__11",
+            "tapioca__toft___4626___c4-tapioca-report__22"
+          ],
+          "gt_rank": 5,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.611
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "tapioca__toft___4626___c4-tapioca-report__67",
+            "tapioca__toft___4626___c4-tapioca-report__20",
+            "tapioca__toft___4626___c4-tapioca-report__25",
+            "tapioca__toft___4626___c4-tapioca-report__11",
+            "tapioca__toft___4626___c4-tapioca-report__22"
+          ],
+          "gt_rank": 5,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.611
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "tapioca__toft___4626___c4-tapioca-report__67",
+            "tapioca__toft___4626___c4-tapioca-report__20",
+            "tapioca__toft___4626___c4-tapioca-report__25",
+            "tapioca__toft___4626___c4-tapioca-report__11",
+            "tapioca__toft___4626___c4-tapioca-report__22"
+          ],
+          "gt_rank": 5,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.611
+        }
+      }
+    },
+    {
+      "id": "tapioca-twaml-burn-grief",
+      "protocol": "Tapioca",
+      "severity": "medium",
+      "vuln_class": "griefing-governance",
+      "latency_s": 5.11,
+      "est_cost_usd": 5.13e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "tapioca__toft___4626___c4-tapioca-report__36",
+            "tapioca__toft___4626___c4-tapioca-report__48",
+            "tapioca__toft___4626___c4-tapioca-report__50",
+            "tapioca__toft___4626___c4-tapioca-report__16",
+            "yearn_v3_vaults__mixbytes-yearn-v3__2",
+            "yearn_v3_vaults__mixbytes-yearn-v3__1",
+            "tapioca__toft___4626___c4-tapioca-report__32",
+            "tapioca__toft___4626___c4-tapioca-report__5",
+            "tapioca__toft___4626___c4-tapioca-report__14",
+            "yearn_v3_vaults__mixbytes-yearn-v3__0"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "dos",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.532
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "tapioca__toft___4626___c4-tapioca-report__36"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "dos",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.532
+        },
+        "0.6": {
+          "surfaced_ids": [],
+          "gt_rank": null,
+          "detected": false,
+          "pass1": false,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "dos",
+          "fp_overlap": false,
+          "gt_hit_similarity": null
+        }
+      }
+    },
+    {
+      "id": "ovault-hub-eid-transfer-fail",
+      "protocol": "LayerZero Ovault VaultComposerSync",
+      "severity": "medium",
+      "vuln_class": "cross-chain-messaging",
+      "latency_s": 2.9,
+      "est_cost_usd": 6.83e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__4",
+            "tapioca__toft___4626___c4-tapioca-report__66",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__3",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__7",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__0"
+          ],
+          "gt_rank": 3,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.585
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__4",
+            "tapioca__toft___4626___c4-tapioca-report__66",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__3",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__7",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__0"
+          ],
+          "gt_rank": 3,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.585
+        },
+        "0.6": {
+          "surfaced_ids": [],
+          "gt_rank": null,
+          "detected": false,
+          "pass1": false,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": null
+        }
+      }
+    },
+    {
+      "id": "ovault-h1-refund-loss",
+      "protocol": "LayerZero Ovault VaultComposerSync",
+      "severity": "high",
+      "vuln_class": "cross-chain-refund",
+      "latency_s": 3.24,
+      "est_cost_usd": 6.02e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__0",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__4",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__7",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__2",
+            "tapioca__toft___4626___c4-tapioca-report__66",
+            "radiant_capital__oft___rekt-radiant-2024__0"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.667
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__0",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__4"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.667
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__0"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": false,
+          "category_signal": "reentrancy",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.667
+        }
+      }
+    },
+    {
+      "id": "ovault-m2-slippage-locked",
+      "protocol": "LayerZero Ovault VaultComposerSync",
+      "severity": "medium",
+      "vuln_class": "slippage",
+      "latency_s": 2.73,
+      "est_cost_usd": 2.73e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__2",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__5",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__7",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__7",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__8"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": true,
+          "gt_hit_similarity": 0.629
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__2",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__5",
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__7",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__7",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__8"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.629
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "layerzero_ovault___vaultcomposersync__cantina-layerzero-ovault-2025__2"
+          ],
+          "gt_rank": 1,
+          "detected": true,
+          "pass1": true,
+          "pass2": false,
+          "pass2_skipped": true,
+          "category_signal": "logic",
+          "fp_overlap": false,
+          "gt_hit_similarity": 0.629
+        }
+      }
+    }
+  ],
+  "clean": [
+    {
+      "id": "clean-multisig",
+      "latency_s": 3.02,
+      "est_cost_usd": 6.83e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "layerzero_v2__oft_oapp___zellic-lz-endpoint-v2__7"
+          ],
+          "false_positive": true,
+          "fp_overlap": true
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "layerzero_v2__oft_oapp___zellic-lz-endpoint-v2__7"
+          ],
+          "false_positive": true,
+          "fp_overlap": true
+        },
+        "0.6": {
+          "surfaced_ids": [],
+          "false_positive": false,
+          "fp_overlap": true
+        }
+      }
+    },
+    {
+      "id": "clean-timelock",
+      "latency_s": 4.19,
+      "est_cost_usd": 6.63e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "morpho_metamorpho__cantina-metamorpho__7",
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__8",
+            "tapioca__toft___4626___c4-tapioca-report__37",
+            "layerzero_v2__oft_oapp___zellic-lz-endpoint-v2__7",
+            "tapioca__toft___4626___c4-tapioca-report__41"
+          ],
+          "false_positive": true,
+          "fp_overlap": true
+        },
+        "0.5": {
+          "surfaced_ids": [],
+          "false_positive": false,
+          "fp_overlap": true
+        },
+        "0.6": {
+          "surfaced_ids": [],
+          "false_positive": false,
+          "fp_overlap": false
+        }
+      }
+    },
+    {
+      "id": "clean-merkle",
+      "latency_s": 3.26,
+      "est_cost_usd": 4.96e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__2",
+            "lido_withdrawal_queue__hexens-lido-v2__12",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__24",
+            "tapioca__toft___4626___c4-tapioca-report__8",
+            "lido_withdrawal_queue__hexens-lido-v2__6"
+          ],
+          "false_positive": true,
+          "fp_overlap": true
+        },
+        "0.5": {
+          "surfaced_ids": [],
+          "false_positive": false,
+          "fp_overlap": false
+        },
+        "0.6": {
+          "surfaced_ids": [],
+          "false_positive": false,
+          "fp_overlap": false
+        }
+      }
+    },
+    {
+      "id": "clean-erc20",
+      "latency_s": 2.67,
+      "est_cost_usd": 7.52e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__15",
+            "lido_withdrawal_queue__hexens-lido-v2__12",
+            "ethena_usde__mint_redeem___c4-ethena-report__22",
+            "ethena_susde__staking_vesting___c4-ethena-2024-report__13",
+            "ethena_usde__mint_redeem___c4-ethena-report__21"
+          ],
+          "false_positive": true,
+          "fp_overlap": true
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__15",
+            "lido_withdrawal_queue__hexens-lido-v2__12",
+            "ethena_usde__mint_redeem___c4-ethena-report__22",
+            "ethena_susde__staking_vesting___c4-ethena-2024-report__13",
+            "ethena_usde__mint_redeem___c4-ethena-report__21"
+          ],
+          "false_positive": true,
+          "fp_overlap": true
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "ondo_rwa_stablecoin__c4-ondo-rwa-report__15"
+          ],
+          "false_positive": true,
+          "fp_overlap": true
+        }
+      }
+    },
+    {
+      "id": "clean-oracle-guarded",
+      "latency_s": 3.38,
+      "est_cost_usd": 6.21e-06,
+      "thresholds": {
+        "0.4": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__0",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__45",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__64",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57"
+          ],
+          "false_positive": true,
+          "fp_overlap": true
+        },
+        "0.5": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__0",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__45",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__64",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__57"
+          ],
+          "false_positive": true,
+          "fp_overlap": true
+        },
+        "0.6": {
+          "surfaced_ids": [
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__14",
+            "oracle_finding_class__solodit___c4-bakerfi-vault-oracle-report__0",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__45",
+            "oracle_finding_class__solodit___c4-renzo-oracle-report__64"
+          ],
+          "false_positive": true,
+          "fp_overlap": true
+        }
+      }
+    }
+  ]
+}

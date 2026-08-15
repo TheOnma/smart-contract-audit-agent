@@ -92,9 +92,13 @@ def query_by_pattern(
     """Pass 1: Find findings with similar code patterns or structural descriptions."""
     collection = _get_collection(db_path, openai_key)
 
-    where = None
+    # False-positive entries are a check-corpus (Pass 3), not candidates —
+    # never surface them as retrieval results.
+    where_clauses = [{"is_false_positive": {"$eq": "False"}}]
     if severity_filter:
-        where = {"severity": {"$eq": severity_filter.lower()}}
+        where_clauses.append({"severity": {"$eq": severity_filter.lower()}})
+
+    where = where_clauses[0] if len(where_clauses) == 1 else {"$and": where_clauses}
 
     return _format_results(collection.query(
         query_texts=[code_or_description],
@@ -116,7 +120,7 @@ def query_by_category(
     collection = _get_collection(db_path, openai_key)
     query_text = f"{protocol_type} {vuln_class} vulnerability exploit"
 
-    where_clauses = []
+    where_clauses = [{"is_false_positive": {"$eq": "False"}}]
     if protocol_type and protocol_type != "any":
         where_clauses.append({"protocol_type": {"$eq": protocol_type}})
     if severity_filter:
