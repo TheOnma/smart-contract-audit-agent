@@ -6,14 +6,13 @@ A reusable auditing system that combines RAG-backed pattern matching, property-b
 
 ## Proven in a live competitive audit 🏆
 
-Not a demo — this system found a real bug in a real competition:
+This system found a real bug in a real competition:
 
 | | |
 |---|---|
 | **Competition** | Cantina audit contest — **Revert Finance** |
 | **Finding** | Confirmed **medium-severity** bug, surfaced by the property-based fuzzing harness |
 | **Rank** | **29 / 773** wardens (top 4%) |
-| **Payout** | **$108** — first paid finding |
 
 **How it happened:** the fuzzing harness's directed math tests (`testFuzz_underflow_search`, the reserve-scale sweep) drove `StableSwapMath.getInvariant`'s Newton–Raphson solver into non-convergent reserve states — the 255-iteration loop with a `|prev − curr| ≤ 1` exit oscillates forever in a dead zone and reverts `ConvergenceNotReached()`, so `_beforeSwap` reverts and **every swap is permanently DoS'd**. I confirmed the trigger is permissionless (anyone can first-deposit at a dead-zone ratio through the public factory) and — the key part — that the dead zone is *non-monotonic*: proportional LP deposits escape it at 10×/100× but not 1×/2×/5×/1000×, so it can't be blamed on the victim. Funds stay recoverable via `removeLiquidity`, capping it at Medium.
 
